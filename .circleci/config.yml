@@ -1,0 +1,62 @@
+version: 2.1
+jobs:
+  deploy:
+    docker:
+      - image: circleci/buildpack-deps
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "b0:34:23:80:ce:a2:6d:59:f5:10:f3:a5:d3:a8:0b:80"
+      - run:
+          name: Add Endpoint to known hosts
+          command: ssh-keyscan -t rsa $REMOTE_HOST > ~/.ssh/known_hosts
+      - checkout
+      - run:
+          name: Pull & checkout code
+          command: |
+            ssh $REMOTE_HOST " \
+              cd ~ &&\
+              git clone https://github.com/kirintwn/homelab.git 2> /dev/null || git -C homelab pull &&\
+              cd homelab &&\
+              git checkout ${CIRCLE_SHA1}
+            "
+      - run:
+          name: Create necessary resources
+          command: |
+            ssh $REMOTE_HOST " \
+              cp ~/acme.json ~/homelab/traefik/config/ACME/acme.json &&\
+              chmod 600 ~/homelab/traefik/config/ACME/acme.json &&\
+              stat ~/homelab/traefik/config/ACME/acme.json &&\
+              cat ~/homelab/traefik/config/ACME/acme.json &&\
+              docker network inspect traefik_proxy >/dev/null 2>&1 || docker network create traefik_proxy \
+            "
+      - run:
+          name: Deploy portainer
+          command: |
+            ssh $REMOTE_HOST " \
+              export PORTAINER_FQDN=${PORTAINER_FQDN} &&\
+              cd ~/homelab/portainer && docker-compose up --build -d \
+            "
+      - run:
+          name: Deploy traefik
+          command: |
+            ssh $REMOTE_HOST " \
+              export TRAEFIK_FQDN=${TRAEFIK_FQDN} &&\
+              export TRAEFIK_CREDENTIAL=${TRAEFIK_CREDENTIAL} &&\
+              cd ~/homelab/traefik && docker-compose up --build -d \
+            "
+      - run:
+          name: Check all containers
+          command: |
+            ssh $REMOTE_HOST "docker ps"
+      - run:
+          name: Check all containers
+          command: |
+            ssh $REMOTE_HOST " \
+              cd ~/homelab &&\
+              git checkout master \
+            "
+workflows:
+  main:
+    jobs:
+      - deploy

@@ -1,0 +1,43 @@
+---
+version: '3.7'
+
+services:
+  traefik:
+    image: traefik
+    container_name: traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/config:/etc/traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`${TRAEFIK_FQDN}`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      # Authentication protection
+      - "traefik.http.routers.api.middlewares=traefik-auth"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_CREDENTIAL}"
+      # Redirect all http traffic to https
+      - "traefik.http.routers.https-redirect.entrypoints=web"
+      - "traefik.http.routers.https-redirect.rule=HostRegexp(`{any:.*}`)"
+      - "traefik.http.routers.https-redirect.middlewares=https-redirect"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+    healthcheck:
+      test: traefik healthcheck
+      interval: 30s
+      timeout: 5s
+      retries: 1
+      start_period: 10s
+    networks:
+      - traefik_proxy
+      - default
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
+  default:
+    driver: bridge
