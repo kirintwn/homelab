@@ -1,0 +1,19 @@
+version: 2.1
+jobs:
+  deploy:
+    docker:
+      - image: docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.09.3
+          docker_layer_caching: true
+      - run:
+          name: Check docker & docker-compose version
+          command: docker version && docker-compose version
+      - run:
+          name: Check env DOCKER_HOST
+          command: echo $DOCKER_HOST
+      - run:
+          name: Check current docker engine status on remote host
+          command: docker ps
