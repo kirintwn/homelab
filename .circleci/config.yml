@@ -1,19 +1,13 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-jobs:
-  deploy:
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 18.09.3
-          docker_layer_caching: true
-      - run:
-          name: Check docker & docker-compose version
-          command: docker version && docker-compose version
-      - run:
-          name: Check env DOCKER_HOST
-          command: echo $DOCKER_HOST
-      - run:
-          name: Check current docker engine status on remote host
-          command: docker ps
+# Use a package of configuration called an orb.
+orbs:
+  # Declare a dependency on the welcome-orb
+  welcome: circleci/welcome-orb@0.4.1
+# Orchestrate or schedule a set of jobs
+workflows:
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
+    jobs:
+      - welcome/run
