@@ -46,6 +46,12 @@ jobs:
               cd ~/homelab/traefik && docker-compose up --build -d \
             "
       - run:
+          name: Deploy teamspeak
+          command: |
+            ssh $REMOTE_HOST " \
+              cd ~/homelab/teamspeak && docker-compose up --build -d \
+            "
+      - run:
           name: Check all containers
           command: |
             ssh $REMOTE_HOST "docker ps"
