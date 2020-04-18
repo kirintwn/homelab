@@ -56,7 +56,7 @@ jobs:
           command: |
             ssh $REMOTE_HOST "docker ps"
       - run:
-          name: Check all containers
+          name: Reset to master/HEAD
           command: |
             ssh $REMOTE_HOST " \
               cd ~/homelab &&\
