@@ -7,7 +7,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
+      - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
       - "traefik.http.routers.adguardhome.entrypoints=web,web-secure"
       - "traefik.http.routers.adguardhome.rule=Host(`${DNS_FQDN}`)"
       - "traefik.http.routers.adguardhome.tls=true"
