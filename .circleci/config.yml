@@ -24,10 +24,9 @@ jobs:
           name: Create necessary resources
           command: |
             ssh $REMOTE_HOST " \
-              cp ~/acme.json ~/homelab/traefik/config/ACME/acme.json &&\
+              [ -s ~/homelab/traefik/config/ACME/acme.json ] || cp ~/acme.json ~/homelab/traefik/config/ACME/acme.json &&\
               chmod 600 ~/homelab/traefik/config/ACME/acme.json &&\
               stat ~/homelab/traefik/config/ACME/acme.json &&\
-              cat ~/homelab/traefik/config/ACME/acme.json &&\
               docker network inspect traefik_proxy >/dev/null 2>&1 || docker network create traefik_proxy \
             "
       - run:
