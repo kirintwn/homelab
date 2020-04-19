@@ -39,11 +39,9 @@ jobs:
       - run:
           name: Deploy adguard-home
           command: |
-            echo $DNS_FQDN
             ssh $REMOTE_HOST " \
               export DNS_FQDN=${DNS_FQDN} &&\
-              echo $DNS_FQDN &&\
-              cd ~/homelab/adguard-home && sudo docker-compose up --build -d \
+              cd ~/homelab/adguard-home && sudo -E docker-compose up --build -d \
             "
       - run:
           name: Deploy traefik
