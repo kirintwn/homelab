@@ -7,11 +7,11 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.portainer.loadbalancer.server.port=3000"
-      - "traefik.http.routers.portainer.entrypoints=web,web-secure"
-      - "traefik.http.routers.portainer.rule=Host(`${DNS_FQDN}`)"
-      - "traefik.http.routers.portainer.tls=true"
-      - "traefik.http.routers.portainer.tls.certresolver=myresolver"
+      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
+      - "traefik.http.routers.adguardhome.entrypoints=web,web-secure"
+      - "traefik.http.routers.adguardhome.rule=Host(`${DNS_FQDN}`)"
+      - "traefik.http.routers.adguardhome.tls=true"
+      - "traefik.http.routers.adguardhome.tls.certresolver=myresolver"
     ports:
       - 53:53/tcp
       - 53:53/udp
