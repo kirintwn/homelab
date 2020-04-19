@@ -37,6 +37,13 @@ jobs:
               cd ~/homelab/portainer && docker-compose up --build -d \
             "
       - run:
+          name: Deploy adguard-home
+          command: |
+            ssh $REMOTE_HOST " \
+              export DNS_FQDN=${DNS_FQDN} &&\
+              cd ~/homelab/adguard-home && sudo docker-compose up --build -d \
+            "
+      - run:
           name: Deploy traefik
           command: |
             ssh $REMOTE_HOST " \
