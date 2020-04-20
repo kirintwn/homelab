@@ -28,9 +28,9 @@ services:
       - "traefik.http.routers.https-redirect.middlewares=https-redirect"
       - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
       # Auth Middleware
-      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
-      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.trustForwardHeader=true"
-      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
+      - "traefik.http.middlewares.traefik-google-auth.forwardauth.address=http://traefik-forward-auth:4181"
+      - "traefik.http.middlewares.traefik-google-auth.forwardauth.trustForwardHeader=true"
+      - "traefik.http.middlewares.traefik-google-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
     healthcheck:
       test: traefik healthcheck
       interval: 30s
@@ -55,7 +55,7 @@ services:
       - "traefik.http.routers.traefik-forward-auth.rule=Host(`${TRAEFIK_AUTH_FQDN}`)"
       - "traefik.http.routers.traefik-forward-auth.tls=true"
       - "traefik.http.routers.traefik-forward-auth.tls.certresolver=myresolver"
-      - "traefik.http.routers.traefik-forward-auth.middlewares=traefik-forward-auth@file"
+      - "traefik.http.routers.traefik-forward-auth.middlewares=traefik-google-auth@file"
     networks:
       - traefik_proxy
       - default
