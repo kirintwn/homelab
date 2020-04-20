@@ -48,6 +48,12 @@ jobs:
             ssh $REMOTE_HOST " \
               export TRAEFIK_FQDN=${TRAEFIK_FQDN} &&\
               export TRAEFIK_CREDENTIAL=${TRAEFIK_CREDENTIAL} &&\
+              export TRAEFIK_PROVIDERS_GOOGLE_CLIENT_ID=${TRAEFIK_PROVIDERS_GOOGLE_CLIENT_ID} &&\
+              export TRAEFIK_PROVIDERS_GOOGLE_CLIENT_SECRET=${TRAEFIK_PROVIDERS_GOOGLE_CLIENT_SECRET} &&\
+              export TRAEFIK_PROVIDERS_OIDC_ISSUER_URL=${TRAEFIK_PROVIDERS_OIDC_ISSUER_URL} &&\
+              export TRAEFIK_AUTH_SECRET=${TRAEFIK_AUTH_SECRET} &&\
+              export TRAEFIK_AUTH_WHITELIST_EMAIL=${TRAEFIK_AUTH_WHITELIST_EMAIL} &&\
+              export TRAEFIK_AUTH_FQDN=${TRAEFIK_AUTH_FQDN} &&\
               cd ~/homelab/traefik && docker-compose up --build -V -d \
             "
       - run:

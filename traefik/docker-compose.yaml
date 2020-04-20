@@ -14,7 +14,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.entrypoints=web,web-secure"
+      - "traefik.http.routers.api.entrypoints=http,https"
       - "traefik.http.routers.api.rule=Host(`${TRAEFIK_FQDN}`)"
       - "traefik.http.routers.api.service=api@internal"
       - "traefik.http.routers.api.tls=true"
@@ -23,16 +23,39 @@ services:
       - "traefik.http.routers.api.middlewares=traefik-auth"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_CREDENTIAL}"
       # Redirect all http traffic to https
-      - "traefik.http.routers.https-redirect.entrypoints=web"
+      - "traefik.http.routers.https-redirect.entrypoints=http"
       - "traefik.http.routers.https-redirect.rule=HostRegexp(`{any:.*}`)"
       - "traefik.http.routers.https-redirect.middlewares=https-redirect"
       - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      # Auth Middleware
+      # - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
+      # - "traefik.http.middlewares.traefik-forward-auth.forwardauth.trustForwardHeader=true"
+      # - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
     healthcheck:
       test: traefik healthcheck
       interval: 30s
       timeout: 5s
       retries: 1
       start_period: 10s
+    networks:
+      - traefik_proxy
+      - default
+  traefik-forward-auth:
+    image: thomseddon/traefik-forward-auth
+    environment:
+      - PROVIDERS_GOOGLE_CLIENT_ID=$TRAEFIK_PROVIDERS_GOOGLE_CLIENT_ID
+      - PROVIDERS_GOOGLE_CLIENT_SECRET=$TRAEFIK_PROVIDERS_GOOGLE_CLIENT_SECRET
+      - PROVIDERS_OIDC_ISSUER_URL=$TRAEFIK_PROVIDERS_OIDC_ISSUER_URL
+      - SECRET=$TRAEFIK_AUTH_SECRET
+      - WHITELIST=$TRAEFIK_AUTH_WHITELIST_EMAIL
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
+      - "traefik.http.routers.traefik-forward-auth.entrypoints=http,https"
+      - "traefik.http.routers.traefik-forward-auth.rule=Host(`${TRAEFIK_AUTH_FQDN}`)"
+      - "traefik.http.routers.traefik-forward-auth.tls=true"
+      - "traefik.http.routers.traefik-forward-auth.tls.certresolver=myresolver"
+      # - "traefik.http.routers.traefik-forward-auth.middlewares=forward-auth@file"
     networks:
       - traefik_proxy
       - default

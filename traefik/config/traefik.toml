@@ -14,9 +14,12 @@
   dashboard = true
 
 [entryPoints]
-  [entryPoints.web]
+  [entryPoints.http]
     address = ":80"
-  [entryPoints.web-secure]
+  [entryPoints.http.auth.forward]
+    address = "http://traefik-forward-auth:4181"
+    authResponseHeaders = ["X-Forwarded-User"]
+  [entryPoints.https]
     address = ":443"
   [entryPoints.ping]
     address = ":8082"
