@@ -8,6 +8,8 @@
     watch = true
     exposedbydefault = false
 
+[accessLog]
+
 [api]
   dashboard = true
 
