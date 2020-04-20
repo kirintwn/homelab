@@ -16,9 +16,8 @@ jobs:
           command: |
             ssh $REMOTE_HOST " \
               cd ~ &&\
-              git clone https://github.com/kirintwn/homelab.git 2> /dev/null || git -C homelab pull &&\
-              cd homelab &&\
-              git checkout ${CIRCLE_SHA1}
+              git clone https://github.com/kirintwn/homelab.git 2> /dev/null || git -C homelab checkout master && git -C homelab pull &&\
+              git -C homelab checkout ${CIRCLE_SHA1}
             "
       - run:
           name: Create necessary resources
@@ -70,11 +69,12 @@ jobs:
       - run:
           name: Reset to master/HEAD
           command: |
-            ssh $REMOTE_HOST " \
-              cd ~/homelab &&\
-              git checkout master \
-            "
+            ssh $REMOTE_HOST "git -C homelab checkout master"
 workflows:
   main:
     jobs:
-      - deploy
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
