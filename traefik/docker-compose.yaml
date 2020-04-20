@@ -55,7 +55,7 @@ services:
       - "traefik.http.routers.traefik-forward-auth.rule=Host(`${TRAEFIK_AUTH_FQDN}`)"
       - "traefik.http.routers.traefik-forward-auth.tls=true"
       - "traefik.http.routers.traefik-forward-auth.tls.certresolver=myresolver"
-      - "traefik.http.routers.traefik-forward-auth.middlewares=traefik-google-auth@docker"
+      - "traefik.http.routers.traefik-forward-auth.middlewares=traefik-google-auth"
     networks:
       - traefik_proxy
       - default
