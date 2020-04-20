@@ -21,12 +21,6 @@
   [entryPoints.ping]
     address = ":8082"
 
-[http.middlewares]
-  [http.middlewares.traefik-forward-auth.forwardauth]
-    address = "http://traefik-forward-auth:4181"
-    trustForwardHeader = true
-    authResponseHeaders = [ "X-Forwarded-User" ]
-
 [ping]
   entryPoint = "ping"
 
