@@ -48,11 +48,11 @@ services:
       - WHITELIST=$TRAEFIK_AUTH_WHITELIST_EMAIL
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
-      - "traefik.http.routers.traefik-forward-auth.entrypoints=http,https"
-      - "traefik.http.routers.traefik-forward-auth.rule=Host(`${TRAEFIK_AUTH_FQDN}`)"
-      - "traefik.http.routers.traefik-forward-auth.tls=true"
-      - "traefik.http.routers.traefik-forward-auth.tls.certresolver=myresolver"
+      # - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
+      # - "traefik.http.routers.traefik-forward-auth.entrypoints=http,https"
+      # - "traefik.http.routers.traefik-forward-auth.rule=Host(`${TRAEFIK_AUTH_FQDN}`)"
+      # - "traefik.http.routers.traefik-forward-auth.tls=true"
+      # - "traefik.http.routers.traefik-forward-auth.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik-forward-auth.middlewares=traefik-google-auth"
     networks:
       - traefik_proxy
