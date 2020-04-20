@@ -12,6 +12,7 @@ services:
       - "traefik.http.routers.adguardhome.rule=Host(`${DNS_FQDN}`)"
       - "traefik.http.routers.adguardhome.tls=true"
       - "traefik.http.routers.adguardhome.tls.certresolver=myresolver"
+      - "traefik.http.routers.adguardhome.middlewares=traefik-google-auth"
     ports:
       - 53:53/tcp
       - 53:53/udp
