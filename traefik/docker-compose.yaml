@@ -40,6 +40,7 @@ services:
       - default
   traefik-forward-auth:
     image: thomseddon/traefik-forward-auth
+    container_name: traefik-forward-auth
     environment:
       - PROVIDERS_GOOGLE_CLIENT_ID=$TRAEFIK_PROVIDERS_GOOGLE_CLIENT_ID
       - PROVIDERS_GOOGLE_CLIENT_SECRET=$TRAEFIK_PROVIDERS_GOOGLE_CLIENT_SECRET
