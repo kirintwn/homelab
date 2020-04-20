@@ -29,20 +29,6 @@ jobs:
               docker network inspect traefik_proxy >/dev/null 2>&1 || docker network create traefik_proxy \
             "
       - run:
-          name: Deploy portainer
-          command: |
-            ssh $REMOTE_HOST " \
-              export PORTAINER_FQDN=${PORTAINER_FQDN} &&\
-              cd ~/homelab/portainer && docker-compose up --build -d \
-            "
-      - run:
-          name: Deploy adguard-home
-          command: |
-            ssh $REMOTE_HOST " \
-              export DNS_FQDN=${DNS_FQDN} &&\
-              cd ~/homelab/adguard-home && sudo -E docker-compose up --build -d \
-            "
-      - run:
           name: Deploy traefik
           command: |
             ssh $REMOTE_HOST " \
@@ -55,6 +41,20 @@ jobs:
               export TRAEFIK_AUTH_WHITELIST_EMAIL=${TRAEFIK_AUTH_WHITELIST_EMAIL} &&\
               export TRAEFIK_AUTH_FQDN=${TRAEFIK_AUTH_FQDN} &&\
               cd ~/homelab/traefik && docker-compose up --build -V -d \
+            "
+      - run:
+          name: Deploy portainer
+          command: |
+            ssh $REMOTE_HOST " \
+              export PORTAINER_FQDN=${PORTAINER_FQDN} &&\
+              cd ~/homelab/portainer && docker-compose up --build -d \
+            "
+      - run:
+          name: Deploy adguard-home
+          command: |
+            ssh $REMOTE_HOST " \
+              export DNS_FQDN=${DNS_FQDN} &&\
+              cd ~/homelab/adguard-home && sudo -E docker-compose up --build -d \
             "
       - run:
           name: Deploy teamspeak
