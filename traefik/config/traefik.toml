@@ -16,11 +16,14 @@
 [entryPoints]
   [entryPoints.http]
     address = ":80"
+
   [entryPoints.http.auth.forward]
     address = "http://traefik-forward-auth:4181"
     authResponseHeaders = ["X-Forwarded-User"]
+
   [entryPoints.https]
     address = ":443"
+
   [entryPoints.ping]
     address = ":8082"
 
