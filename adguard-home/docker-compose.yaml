@@ -2,29 +2,28 @@
 version: "3.7"
 services:
   adguardhome:
-    image: adguard/adguardhome
+    # image: adguard/adguardhome
+    image: ubuntu:latest
     container_name: adguard-home
-    entrypoint: ["/bin/sh", "-c"]
-    command: tail -f /dev/null
     restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
-      - "traefik.http.routers.adguardhome.entrypoints=http,https"
-      - "traefik.http.routers.adguardhome.rule=Host(`${DNS_FQDN}`)"
-      - "traefik.http.routers.adguardhome.tls=true"
-      - "traefik.http.routers.adguardhome.tls.certresolver=myresolver"
-      - "traefik.http.routers.adguardhome.middlewares=traefik-google-auth"
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 853:853/tcp
-    cap_add:
-      - NET_ADMIN
-    dns:
-      - 127.0.0.1
-      - 8.8.8.8
-      - 1.1.1.1
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
+    #   - "traefik.http.routers.adguardhome.entrypoints=http,https"
+    #   - "traefik.http.routers.adguardhome.rule=Host(`${DNS_FQDN}`)"
+    #   - "traefik.http.routers.adguardhome.tls=true"
+    #   - "traefik.http.routers.adguardhome.tls.certresolver=myresolver"
+    #   - "traefik.http.routers.adguardhome.middlewares=traefik-google-auth"
+    # ports:
+    #   - 53:53/tcp
+    #   - 53:53/udp
+    #   - 853:853/tcp
+    # cap_add:
+    #   - NET_ADMIN
+    # dns:
+    #   - 127.0.0.1
+    #   - 8.8.8.8
+    #   - 1.1.1.1
     # healthcheck:
     #   test: [ "CMD-SHELL", "nslookup a.root-servers.net 127.0.0.1 || exit 1" ]
     #   interval: 60s
