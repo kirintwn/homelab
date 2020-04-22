@@ -8,8 +8,8 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - SITE_ROOT="https://${HEALTHCHECKS_FQDN}/"
-      - SITE_NAME="homelab healthchecks"
+      - SITE_ROOT=https://${HEALTHCHECKS_FQDN}/
+      - SITE_NAME=homelab-healthchecks
       - DEFAULT_FROM_EMAIL=$HEALTHCHECKS_EMAIL
       - EMAIL_HOST=$HEALTHCHECKS_EMAIL_HOST
       - EMAIL_PORT=587
