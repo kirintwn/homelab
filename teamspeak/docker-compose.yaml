@@ -3,7 +3,7 @@ version: "3.7"
 services:
   teamspeak:
     image: teamspeak
-    container_name: teamspeak_service
+    container_name: teamspeak
     depends_on:
       - db
     restart: always
@@ -16,10 +16,12 @@ services:
       TS3SERVER_DB_SQLCREATEPATH: create_mariadb
       TS3SERVER_DB_HOST: db
       TS3SERVER_DB_USER: root
-      TS3SERVER_DB_PASSWORD: internal_db_password
+      TS3SERVER_DB_PASSWORD: $TEAMSPEAK_DB_PASSWORD
       TS3SERVER_DB_NAME: teamspeak
       TS3SERVER_DB_WAITUNTILREADY: 30
       TS3SERVER_LICENSE: accept
+    volumes:
+      - service-volume:/var/ts3server
     healthcheck:
       test: [ "CMD-SHELL", "netstat -an | grep 30033 > /dev/null; if [ 0 != $$? ]; then exit 1; fi;" ]
       interval: 30s
@@ -28,13 +30,13 @@ services:
       start_period: 20s
   db:
     image: mariadb
-    container_name: teamspeak_mariadb
+    container_name: teamspeak-mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: internal_db_password
+      MYSQL_ROOT_PASSWORD: $TEAMSPEAK_DB_PASSWORD
       MYSQL_DATABASE: teamspeak
     volumes:
-      - teamspeak-db-volume:/var/lib/mysql
+      - db-volume:/var/lib/mysql
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "--silent" ]
       interval: 30s
@@ -42,5 +44,7 @@ services:
       retries: 1
       start_period: 20s
 volumes:
-  teamspeak-db-volume:
+  service-volume:
+    external: false
+  db-volume:
     external: false

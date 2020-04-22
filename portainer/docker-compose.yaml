@@ -15,12 +15,12 @@ services:
       - "traefik.http.routers.portainer.middlewares=traefik-google-auth"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer-volume:/data
+      - service-volume:/data
     networks:
       - traefik_proxy
       - default
 volumes:
-  portainer-volume:
+  service-volume:
     external: false
 networks:
   traefik_proxy:
