@@ -4,8 +4,8 @@ services:
   adguardhome:
     image: adguard/adguardhome
     container_name: adguard-home
-    entrypoint: ["sh", "-c"]
-    command: "while :; do :; done & kill -STOP $! && wait $!"
+    entrypoint: ["/bin/sh", "-c", "sleep"]
+    command: 5000s
     restart: always
     labels:
       - "traefik.enable=true"
