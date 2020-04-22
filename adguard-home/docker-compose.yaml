@@ -4,8 +4,8 @@ services:
   adguardhome:
     image: adguard/adguardhome
     container_name: adguard-home
-    entrypoint: ["/bin/sh", "-c", "sleep"]
-    command: 1h
+    entrypoint: ["/bin/sh", "-c"]
+    command: "tail -f /dev/null"
     restart: always
     labels:
       - "traefik.enable=true"
