@@ -53,7 +53,18 @@ jobs:
           command: |
             ssh $REMOTE_HOST " \
               export DNS_FQDN=${DNS_FQDN} &&\
-              cd ~/homelab/adguard-home && sudo -E docker-compose up --build -V -d \
+              cd ~/homelab/adguard-home && sudo -E docker-compose up --build -d \
+            "
+      - run:
+          name: Deploy healthchecks
+          command: |
+            ssh $REMOTE_HOST " \
+              export HEALTHCHECKS_FQDN=${HEALTHCHECKS_FQDN} &&\
+              export HEALTHCHECKS_EMAIL=${HEALTHCHECKS_EMAIL} &&\
+              export HEALTHCHECKS_EMAIL_HOST=${HEALTHCHECKS_EMAIL_HOST} &&\
+              export HEALTHCHECKS_EMAIL_HOST_PASSWORD=${HEALTHCHECKS_EMAIL_HOST_PASSWORD} &&\
+              export HEALTHCHECKS_SUPERUSER_PASSWORD=${HEALTHCHECKS_SUPERUSER_PASSWORD} &&\
+              cd ~/homelab/healthchecks && sudo -E docker-compose up --build -d \
             "
       - run:
           name: Deploy teamspeak
