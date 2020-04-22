@@ -64,7 +64,7 @@ jobs:
               export HEALTHCHECKS_EMAIL_HOST=${HEALTHCHECKS_EMAIL_HOST} &&\
               export HEALTHCHECKS_EMAIL_HOST_PASSWORD=${HEALTHCHECKS_EMAIL_HOST_PASSWORD} &&\
               export HEALTHCHECKS_SUPERUSER_PASSWORD=${HEALTHCHECKS_SUPERUSER_PASSWORD} &&\
-              cd ~/homelab/healthchecks && docker-compose up --build -d \
+              cd ~/homelab/healthchecks && docker-compose up --build -V -d \
             "
       - run:
           name: Deploy teamspeak
