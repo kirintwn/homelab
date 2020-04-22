@@ -31,15 +31,15 @@ services:
     #   timeout: 5s
     #   retries: 1
     #   start_period: 30s
-    # volumes:
+    volumes:
       # - adguard-home-work-volume:/opt/adguardhome/work
       # - adguard-home-conf-volume:/opt/adguardhome/conf
       # - work-volume:/opt/adguardhome/work_new
       # - conf-volume:/opt/adguardhome/conf_new
-      # - adguard-home-work-volume:/opt/work
-      # - adguard-home-conf-volume:/opt/conf
-      # - work-volume:/opt/work_new
-      # - conf-volume:/opt/conf_new
+      - adguard-home-work-volume:/opt/work
+      - adguard-home-conf-volume:/opt/conf
+      - work-volume:/opt/work_new
+      - conf-volume:/opt/conf_new
     networks:
       - traefik_proxy
       - default
