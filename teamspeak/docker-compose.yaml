@@ -3,7 +3,7 @@ version: "3.7"
 services:
   teamspeak:
     image: teamspeak
-    container_name: teamspeak
+    container_name: teamspeak-service
     depends_on:
       - db
     restart: always
