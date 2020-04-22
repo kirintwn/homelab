@@ -46,7 +46,7 @@ jobs:
           command: |
             ssh $REMOTE_HOST " \
               export PORTAINER_FQDN=${PORTAINER_FQDN} &&\
-              cd ~/homelab/portainer && docker-compose up --build -V -d \
+              cd ~/homelab/portainer && docker-compose up --build -d \
             "
       - run:
           name: Deploy adguard-home
@@ -60,13 +60,13 @@ jobs:
           command: |
             ssh $REMOTE_HOST " \
               export TEAMSPEAK_DB_PASSWORD=${TEAMSPEAK_DB_PASSWORD} &&\
-              cd ~/homelab/teamspeak && docker-compose up --build -V -d \
+              cd ~/homelab/teamspeak && docker-compose up --build -d \
             "
       - run:
           name: Deploy docker-autoheal
           command: |
             ssh $REMOTE_HOST " \
-              cd ~/homelab/docker-autoheal && docker-compose up --build -V -d \
+              cd ~/homelab/docker-autoheal && docker-compose up --build -d \
             "
       - run:
           name: Check all containers
