@@ -27,12 +27,12 @@ services:
       - "traefik.http.routers.healthchecks.tls.certresolver=myresolver"
       - "traefik.http.routers.healthchecks.middlewares=traefik-google-auth"
     volumes:
-      - config-volume:/config
+      - conf-volume:/config
     networks:
       - traefik_proxy
       - default
 volumes:
-  config-volume:
+  conf-volume:
     external: false
 networks:
   traefik_proxy:
