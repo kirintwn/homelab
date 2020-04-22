@@ -5,6 +5,7 @@ services:
     # image: adguard/adguardhome
     image: ubuntu:latest
     container_name: adguard-home
+    command: "tail -f /dev/null"
     restart: always
     # labels:
     #   - "traefik.enable=true"
