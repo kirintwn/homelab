@@ -30,7 +30,7 @@ services:
     #   timeout: 5s
     #   retries: 1
     #   start_period: 30s
-    volumes:
+    # volumes:
       # - adguard-home-work-volume:/opt/adguardhome/work
       # - adguard-home-conf-volume:/opt/adguardhome/conf
       # - work-volume:/opt/adguardhome/work_new
