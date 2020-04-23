@@ -9,6 +9,7 @@
     exposedbydefault = false
 
 [accessLog]
+  statusCodes = ["400-499", "500-599"]
 
 [api]
   dashboard = true
