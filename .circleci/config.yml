@@ -59,6 +59,7 @@ jobs:
           name: Deploy teamspeak
           command: |
             ssh $REMOTE_HOST " \
+              export TS_FQDN=${TS_FQDN} &&\
               export TEAMSPEAK_DB_PASSWORD=${TEAMSPEAK_DB_PASSWORD} &&\
               cd ~/homelab/teamspeak && docker-compose up --build -d \
             "
