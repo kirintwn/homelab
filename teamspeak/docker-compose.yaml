@@ -23,11 +23,11 @@ services:
       - "traefik.tcp.services.teamspeak-serverquery.loadbalancer.server.port=10011"
       - "traefik.tcp.routers.teamspeak-serverquery.service=teamspeak-serverquery"
       - "traefik.tcp.routers.teamspeak-serverquery.entrypoints=ts-serverquery"
-      - "traefik.tcp.routers.teamspeak-serverquery.rule=Host(`${TS_FQDN}`)"
+      - "traefik.tcp.routers.teamspeak-serverquery.rule=HostSNI(`${TS_FQDN}`)"
       - "traefik.tcp.services.ts-filetransfer.loadbalancer.server.port=30033"
       - "traefik.tcp.routers.ts-filetransfer.service=ts-filetransfer"
       - "traefik.tcp.routers.ts-filetransfer.entrypoints=ts-filetransfer"
-      - "traefik.tcp.routers.ts-filetransfer.rule=Host(`${TS_FQDN}`)"
+      - "traefik.tcp.routers.ts-filetransfer.rule=HostSNI(`${TS_FQDN}`)"
     healthcheck:
       test: [ "CMD-SHELL", "netstat -an | grep 30033 > /dev/null; if [ 0 != $$? ]; then exit 1; fi;" ]
       interval: 30s
