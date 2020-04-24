@@ -9,7 +9,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.entrypoints=http,https"
-      - "traefik.http.routers.portainer.rule=Host(`${PORTAINER_FQDN}`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${TLD}`)"
       - "traefik.http.routers.portainer.tls=true"
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
       - "traefik.http.routers.portainer.middlewares=traefik-google-auth"
