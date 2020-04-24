@@ -4,6 +4,10 @@ services:
   teamspeak:
     image: teamspeak
     container_name: teamspeak-service
+    ports:
+      - 9987:9987/udp
+      - 10011:10011
+      - 30033:30033
     depends_on:
       - db
     restart: always
@@ -16,18 +20,6 @@ services:
       TS3SERVER_DB_NAME: teamspeak
       TS3SERVER_DB_WAITUNTILREADY: 30
       TS3SERVER_LICENSE: accept
-    labels:
-      - "traefik.enable=true"
-      - "traefik.udp.services.teamspeak.loadbalancer.server.port=9987"
-      - "traefik.udp.routers.teamspeak.entrypoints=ts-streaming"
-      - "traefik.tcp.services.teamspeak-serverquery.loadbalancer.server.port=10011"
-      - "traefik.tcp.routers.teamspeak-serverquery.service=teamspeak-serverquery"
-      - "traefik.tcp.routers.teamspeak-serverquery.entrypoints=ts-serverquery"
-      - "traefik.tcp.routers.teamspeak-serverquery.rule=HostSNI(`${TS_FQDN}`)"
-      - "traefik.tcp.services.ts-filetransfer.loadbalancer.server.port=30033"
-      - "traefik.tcp.routers.ts-filetransfer.service=ts-filetransfer"
-      - "traefik.tcp.routers.ts-filetransfer.entrypoints=ts-filetransfer"
-      - "traefik.tcp.routers.ts-filetransfer.rule=HostSNI(`${TS_FQDN}`)"
     healthcheck:
       test: [ "CMD-SHELL", "netstat -an | grep 30033 > /dev/null; if [ 0 != $$? ]; then exit 1; fi;" ]
       interval: 30s
@@ -36,9 +28,6 @@ services:
       start_period: 20s
     volumes:
       - service-volume:/var/ts3server
-    networks:
-      - traefik_proxy
-      - default
   db:
     image: mariadb
     container_name: teamspeak-mariadb
@@ -54,16 +43,8 @@ services:
       timeout: 5s
       retries: 1
       start_period: 20s
-    networks:
-      - default
 volumes:
   service-volume:
     external: false
   db-volume:
     external: false
-networks:
-  traefik_proxy:
-    external:
-      name: traefik_proxy
-  default:
-    driver: bridge
