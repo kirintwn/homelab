@@ -11,6 +11,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - 9987:9987/udp
+      - 10011:10011
+      - 30033:30033
     restart: always
     labels:
       - "traefik.enable=true"

@@ -22,6 +22,12 @@
     address = ":443"
   [entryPoints.ping]
     address = ":8082"
+  [entryPoints.ts-streaming]
+    address = ":9987/udp"
+  [entryPoints.ts-serverquery]
+    address = ":10011"
+  [entryPoints.ts-filetransfer]
+    address = ":30033"
 
 [ping]
   entryPoint = "ping"
