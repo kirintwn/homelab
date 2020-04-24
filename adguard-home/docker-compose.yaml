@@ -8,6 +8,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
+      - "traefik.http.services.adguardhome.loadbalancer.healthcheck.path=/"
+      - "traefik.http.services.adguardhome.loadbalancer.healthcheck.interval=10"
+      - "traefik.http.services.adguardhome.loadbalancer.healthcheck.timeout=5"
       - "traefik.http.routers.adguardhome.entrypoints=http,https"
       - "traefik.http.routers.adguardhome.rule=Host(`dns.${TLD}`)"
       - "traefik.http.routers.adguardhome.tls=true"
