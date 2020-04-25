@@ -1,0 +1,21 @@
+db:
+  path: diun.db
+watch:
+  workers: 10
+  schedule: "0 * * * *"
+  first_check_notif: true
+notif:
+  mail:
+    enable: true
+    ssl: true
+    insecure_skip_verify: false
+    host: SMTP_HOST
+    port: SMTP_PORT
+    username: SMTP_USERNAME
+    password: SMTP_PASSWORD
+    from: EMAIL_AUTHOR
+    to: EMAIL_RECIPIENT
+providers:
+  docker:
+    local:
+      watch_by_default: true
