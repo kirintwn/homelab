@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       TZ: Asia/Taipei
-      WATCHTOWER_CLEANUP: true
+      WATCHTOWER_CLEANUP: "true"
       WATCHTOWER_SCHEDULE: "* 5 * * 1 *"
       WATCHTOWER_NOTIFICATIONS: email
       WATCHTOWER_NOTIFICATION_EMAIL_SERVER: $SMTP_HOST
