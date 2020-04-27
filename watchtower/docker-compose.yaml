@@ -1,0 +1,20 @@
+---
+version: "3.7"
+services:
+  portainer:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    environment:
+      TZ: Asia/Taipei
+      WATCHTOWER_CLEANUP: true
+      WATCHTOWER_SCHEDULE: "* 5 * * 1 *"
+      WATCHTOWER_NOTIFICATIONS: email
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER: $SMTP_HOST
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT: $SMTP_PORT_TLS
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER: $SMTP_USERNAME
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD: $SMTP_PASSWORD
+      WATCHTOWER_NOTIFICATION_EMAIL_FROM: $EMAIL_AUTHOR
+      WATCHTOWER_NOTIFICATION_EMAIL_TO: $EMAIL_RECIPIENT
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro

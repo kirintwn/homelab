@@ -20,25 +20,13 @@ jobs:
               git -C homelab checkout ${CIRCLE_SHA1} \
             "
       - run:
-          name: Install dependencies
-          command: |
-            ssh $REMOTE_HOST " \
-              sudo snap install yq \
-            "
-      - run:
           name: Create necessary resources
           command: |
             ssh $REMOTE_HOST " \
               docker network inspect traefik_proxy >/dev/null 2>&1 || docker network create traefik_proxy &&\
               [ -s ~/homelab/traefik/config/ACME/acme.json ] || cp ~/acme.json ~/homelab/traefik/config/ACME/acme.json &&\
               chmod 600 ~/homelab/traefik/config/ACME/acme.json &&\
-              stat ~/homelab/traefik/config/ACME/acme.json &&\
-              yq w -i ~/homelab/diun/config/diun.yml notif.mail.host "${SMTP_HOST}" &&\
-              yq w -i ~/homelab/diun/config/diun.yml notif.mail.port "${SMTP_PORT}"&&\
-              yq w -i ~/homelab/diun/config/diun.yml notif.mail.username "${SMTP_USERNAME}" &&\
-              yq w -i ~/homelab/diun/config/diun.yml notif.mail.password "${SMTP_PASSWORD}" &&\
-              yq w -i ~/homelab/diun/config/diun.yml notif.mail.from "${EMAIL_AUTHOR}" &&\
-              yq w -i ~/homelab/diun/config/diun.yml notif.mail.to "${EMAIL_RECIPIENT}" \
+              stat ~/homelab/traefik/config/ACME/acme.json \
             "
       - run:
           name: Deploy traefik
@@ -74,16 +62,22 @@ jobs:
               cd ~/homelab/teamspeak && docker-compose up --build -d \
             "
       - run:
-          name: Deploy diun
-          command: |
-            ssh $REMOTE_HOST " \
-              cd ~/homelab/diun && docker-compose up --build -d \
-            "
-      - run:
           name: Deploy docker-autoheal
           command: |
             ssh $REMOTE_HOST " \
               cd ~/homelab/docker-autoheal && docker-compose up --build -d \
+            "
+      - run:
+          name: Deploy watchtower
+          command: |
+            ssh $REMOTE_HOST " \
+              export SMTP_HOST=${SMTP_HOST} &&\
+              export SMTP_PORT_TLS=${SMTP_PORT_TLS} &&\
+              export SMTP_USERNAME=${SMTP_USERNAME} &&\
+              export SMTP_PASSWORD=${SMTP_PASSWORD} &&\
+              export EMAIL_AUTHOR=${EMAIL_AUTHOR} &&\
+              export EMAIL_RECIPIENT=${EMAIL_RECIPIENT} &&\
+              cd ~/homelab/watchtower && docker-compose up --build -d \
             "
       - run:
           name: Check all containers

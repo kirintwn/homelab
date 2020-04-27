@@ -7,3 +7,4 @@
 * [Portainer](https://github.com/portainer/portainer)
 * [Teamspeak Server](https://github.com/TeamSpeak-Systems/teamspeak-linux-docker-images)
 * [Traefik](https://github.com/containous/traefik)
+* [Watchtower](https://github.com/containrrr/watchtower)
