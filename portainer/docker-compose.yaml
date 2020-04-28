@@ -5,6 +5,8 @@ services:
     image: portainer/portainer
     container_name: portainer
     restart: always
+    environment:
+      TZ: Asia/Taipei
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"

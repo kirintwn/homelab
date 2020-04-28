@@ -6,6 +6,7 @@ services:
     container_name: docker-autoheal
     restart: always
     environment:
+      TZ: Asia/Taipei
       AUTOHEAL_CONTAINER_LABEL: all
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

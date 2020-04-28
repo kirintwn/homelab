@@ -12,6 +12,7 @@ services:
       - db
     restart: always
     environment:
+      TZ: Asia/Taipei
       TS3SERVER_DB_PLUGIN: ts3db_mariadb
       TS3SERVER_DB_SQLCREATEPATH: create_mariadb
       TS3SERVER_DB_HOST: db

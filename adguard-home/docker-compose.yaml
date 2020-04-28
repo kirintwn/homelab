@@ -5,6 +5,8 @@ services:
     image: adguard/adguardhome
     container_name: adguard-home
     restart: always
+    environment:
+      TZ: Asia/Taipei
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
