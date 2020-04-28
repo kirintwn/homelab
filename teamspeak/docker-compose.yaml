@@ -34,6 +34,7 @@ services:
     container_name: teamspeak-mariadb
     restart: always
     environment:
+      TZ: Asia/Taipei
       MYSQL_ROOT_PASSWORD: $TEAMSPEAK_DB_PASSWORD
       MYSQL_DATABASE: teamspeak
     volumes:
