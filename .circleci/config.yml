@@ -53,7 +53,7 @@ jobs:
             ssh $REMOTE_HOST " \
               export TLD=${TLD} &&\
               export CODE_PASSWORD=${CODE_PASSWORD} &&\
-              cd ~/homelab/code-server && sudo -E docker-compose up --build -d \
+              cd ~/homelab/code-server && docker-compose up --build -d \
             "
       - run:
           name: Deploy adguard-home
