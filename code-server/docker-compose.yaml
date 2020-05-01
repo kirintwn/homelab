@@ -7,9 +7,8 @@ services:
     restart: always
     command:
       - --bind-addr=0.0.0.0:8080
+    user: 1000:1000
     environment:
-      PUID: 1003
-      PGID: 1004
       TZ: Asia/Taipei
       PASSWORD: $CODE_PASSWORD
     labels:
@@ -24,7 +23,7 @@ services:
       - "traefik.http.routers.code-server.tls.certresolver=myresolver"
       - "traefik.http.routers.code-server.middlewares=traefik-google-auth"
     volumes:
-      - user-data-volume:/home/coder/.local/share/code-server
+      - /home/dev/codeserver/.local/share/code-server:/home/coder/.local/share/code-server
       - /srv/works:/home/coder/project
     networks:
       - traefik_proxy
