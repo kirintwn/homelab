@@ -48,6 +48,14 @@ jobs:
               cd ~/homelab/portainer && docker-compose up --build -d \
             "
       - run:
+          name: Deploy code-server
+          command: |
+            ssh $REMOTE_HOST " \
+              export TLD=${TLD} &&\
+              export CODE_PASSWORD=${CODE_PASSWORD} &&\
+              cd ~/homelab/code-server && sudo -E docker-compose up --build -d \
+            "
+      - run:
           name: Deploy adguard-home
           command: |
             ssh $REMOTE_HOST " \
