@@ -1,0 +1,44 @@
+---
+version: "3.7"
+services:
+  portainer:
+    image: syncthing/syncthing
+    container_name: syncthing
+    ports:
+      - 22000:22000/tcp
+      - 21027:21027/udp
+    restart: always
+    environment:
+      TZ: Asia/Taipei
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
+      - "traefik.http.services.syncthing.loadbalancer.healthcheck.path=/"
+      - "traefik.http.services.syncthing.loadbalancer.healthcheck.interval=10s"
+      - "traefik.http.services.syncthing.loadbalancer.healthcheck.timeout=3s"
+      - "traefik.http.routers.syncthing.entrypoints=http,https"
+      - "traefik.http.routers.syncthing.rule=Host(`syncthing.${TLD}`)"
+      - "traefik.http.routers.syncthing.tls=true"
+      - "traefik.http.routers.syncthing.tls.certresolver=myresolver"
+      - "traefik.http.routers.syncthing.middlewares=traefik-google-auth"
+    healthcheck:
+      test: [ "CMD-SHELL", "netstat -an | grep 22000 > /dev/null; if [ 0 != $$? ]; then exit 1; fi;" ]
+      interval: 30s
+      timeout: 5s
+      retries: 1
+      start_period: 20s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - data-volume:/var/syncthing
+    networks:
+      - traefik_proxy
+      - default
+volumes:
+  data-volume:
+    external: false
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
+  default:
+    driver: bridge

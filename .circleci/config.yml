@@ -55,6 +55,13 @@ jobs:
               cd ~/homelab/adguard-home && sudo -E docker-compose up --build -d \
             "
       - run:
+          name: Deploy syncthing
+          command: |
+            ssh $REMOTE_HOST " \
+              export TLD=${TLD} &&\
+              cd ~/homelab/syncthing && docker-compose up --build -d \
+            "
+      - run:
           name: Deploy teamspeak
           command: |
             ssh $REMOTE_HOST " \
