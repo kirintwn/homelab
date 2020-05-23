@@ -13,9 +13,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
-      - "traefik.http.services.syncthing.loadbalancer.healthcheck.path=/"
-      - "traefik.http.services.syncthing.loadbalancer.healthcheck.interval=10s"
-      - "traefik.http.services.syncthing.loadbalancer.healthcheck.timeout=3s"
+      # NO HEALTHCHECK BECAUSE IT USES BASIC AUTH
+      # - "traefik.http.services.syncthing.loadbalancer.healthcheck.path=/"
+      # - "traefik.http.services.syncthing.loadbalancer.healthcheck.interval=10s"
+      # - "traefik.http.services.syncthing.loadbalancer.healthcheck.timeout=3s"
       - "traefik.http.routers.syncthing.entrypoints=http,https"
       - "traefik.http.routers.syncthing.rule=Host(`syncthing.${TLD}`)"
       - "traefik.http.routers.syncthing.tls=true"
